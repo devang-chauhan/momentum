@@ -1,5 +1,7 @@
 
 const bodyEl = document.body;
+const coinContainerEl = document.getElementById("coin-container");
+const coinInfoEl = document.getElementById("coin-info");
 const authorEl = document.getElementById("author");
 const defaultBackground = './images/gradient.jpg';
 
@@ -26,6 +28,14 @@ function fetchBackground(data) {
     updateAuthor(name); 
 }
 
+
+function addCrypto(data) {
+    coinContainerEl.innerHTML += `
+        <img src=${data.image.thumb} id="coin-thumb">
+        <p>USD ${data.market_data.current_price.usd}</p>
+    `;
+}
+
 fetch("https://apis.scrimba.com/unsplash/photos/random?orientation=landscape&query=nature")
     .then(res => res.json())
     .then(data => fetchBackground(data))
@@ -34,8 +44,6 @@ fetch("https://apis.scrimba.com/unsplash/photos/random?orientation=landscape&que
         updateBackground(defaultBackground);
     });
 
-fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd")
+fetch("https://api.coingecko.com/api/v3/coins/bitcoin")
     .then(res => res.json())
-    .then(data => {
-        console.log(data.bitcoin.usd);
-    });
+    .then(data => addCrypto(data));
