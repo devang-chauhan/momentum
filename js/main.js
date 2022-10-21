@@ -2,6 +2,7 @@
 const bodyEl = document.body;
 const coinContainerEl = document.getElementById("coin-container");
 const coinInfoEl = document.getElementById("coin-info");
+const timeEl = document.getElementById("time");
 const authorEl = document.getElementById("author");
 const defaultBackground = './images/gradient.jpg';
 
@@ -31,8 +32,23 @@ function fetchBackground(data) {
 
 function addCrypto(data) {
     coinContainerEl.innerHTML += `
-        <img src=${data.image.thumb} id="coin-thumb">
-        <p>USD $${data.market_data.current_price.usd}</p>
+        <div>
+            <img src=${data.image.thumb} id="coin-thumb">
+            <p id="coin-name">Bitcoin</p>
+        </div>
+        <div id="coin-info">
+            <div>
+                <p>Current price</p>
+                <p>24-hour high price </p>
+                <p>24-hour low price </p>
+            </div>
+            <div>
+                <p>USD $${data.market_data.current_price.usd}</p>
+                <p>USD $${data.market_data.high_24h.usd}</p>
+                <p>USD $${data.market_data.low_24h.usd}</p>
+            </div>
+        </div>
+        
     `;
 }
 
@@ -61,3 +77,17 @@ fetch("https://api.coingecko.com/api/v3/coins/bitcoin")
     })
     .then(data => addCrypto(data))
     .catch(err => console.error(err));
+
+
+function updateTime() {
+    const today = new Date();
+    const hour = today.getHours();
+    const minute = today.getMinutes();
+    const meridiem = hour < 12 ? "AM" : "PM";
+    timeEl.innerHTML = `
+        <h1>${hour}:${minute} ${meridiem}</h1>
+    `;
+}
+
+updateTime();
+
