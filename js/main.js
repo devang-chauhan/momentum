@@ -32,9 +32,16 @@ function fetchBackground(data) {
 function addCrypto(data) {
     coinContainerEl.innerHTML += `
         <img src=${data.image.thumb} id="coin-thumb">
-        <p>USD ${data.market_data.current_price.usd}</p>
+        <p>USD $${data.market_data.current_price.usd}</p>
     `;
 }
+
+function handleCryptoError() {
+    coinContainerEl.innerHTML = `
+        <p>Could not fetch data</p>
+    `;    
+}
+
 
 fetch("https://apis.scrimba.com/unsplash/photos/random?orientation=landscape&query=nature")
     .then(res => res.json())
@@ -45,5 +52,12 @@ fetch("https://apis.scrimba.com/unsplash/photos/random?orientation=landscape&que
     });
 
 fetch("https://api.coingecko.com/api/v3/coins/bitcoin")
-    .then(res => res.json())
-    .then(data => addCrypto(data));
+    .then(res => {
+        if (!res.ok) {
+            handleCryptoError();
+        }
+        return res.json();
+        
+    })
+    .then(data => addCrypto(data))
+    .catch(err => console.error(err));
