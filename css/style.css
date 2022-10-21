@@ -29,12 +29,35 @@ main {
 
 #coin-container {
     display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+#coin-container div {
+    display: flex;
     justify-content: flex-start;
-    align-items: center;
+}
+
+#coin-name {
+    font-weight: 700;
+}
+
+#coin-info {
+    margin: 0.5em 0 0 0;
+    font-size: 1.5rem;
+}
+
+#coin-info div {
+    display: flex;
+    flex-direction: column;
+}
+
+#coin-info div:first-child {
+    margin: 0 1em 0 0
 }
 
 #coin-thumb {
-    width: 2rem;
-    height: 2rem;
-    margin: 0 0.2em 0 0;
+    width: 3rem;
+    height: 3rem;
+    margin: 0 0.5em 0 0;
 }
